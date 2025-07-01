@@ -1,27 +1,26 @@
 require('dotenv').config();
 const Knex = require('knex');
 
-const mysqlDb = Knex({
+const sqlFrom = Knex({
   client: 'mysql2',
   connection: {
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASS,
-    database: process.env.MYSQL_DB,
-    port: process.env.MYSQL_PORT ? Number(process.env.MYSQL_PORT) : 3306,
+    host: process.env.SQL_FROM_HOST,
+    user: process.env.SQL_FROM_USER,
+    password: process.env.SQL_FROM_PASS.replace(/(^'|'$)/g, ''),
+    database: process.env.SQL_FROM_DB,
+    port: process.env.SQL_FROM_PORT ? Number(process.env.SQL_FROM_PORT) : 3306,
   }
 });
 
-const pgDb = Knex({
-  client: 'mysql2',
-//   client: 'pg',
+const sqlTo = Knex({
+  client: 'pg',
   connection: {
-    host: process.env.PG_HOST,
-    user: process.env.PG_USER,
-    password: process.env.PG_PASS,
-    database: process.env.PG_DB,
-    port: process.env.PG_PORT ? Number(process.env.PG_PORT) : 5432,
+    host: process.env.SQL_TO_HOST,
+    user: process.env.SQL_TO_USER,
+    password: process.env.SQL_TO_PASS.replace(/(^'|'$)/g, ''),
+    database: process.env.SQL_TO_DB,
+    port: process.env.SQL_TO_PORT ? Number(process.env.SQL_TO_PORT) : 5432,
   }
 });
 
-module.exports = { mysqlDb, pgDb };
+module.exports = { sqlFrom, sqlTo };
